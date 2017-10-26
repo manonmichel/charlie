@@ -9,12 +9,13 @@ public class DistanceBasedSearch {
 	 * @return a double, the value of the error for the RGB pixel pair. (an integer in [0, 255])
 	 */
 	public static double pixelAbsoluteError(int patternPixel, int imagePixel) {
-		int somme = 0; 
-		somme += Math.abs(ImageProcessing.getRed(patternPixel)-ImageProcessing.getRed(imagePixel)) ;
-		somme += Math.abs(ImageProcessing.getGreen(patternPixel)-ImageProcessing.getGreen(imagePixel)) ;
-		somme += Math.abs(ImageProcessing.getBlue(patternPixel)-ImageProcessing.getBlue(imagePixel)) ;
-		somme /= 3.0 ; 
-		return somme ; 
+		int EA = 0; 
+		EA += Math.abs(ImageProcessing.getRed(patternPixel)-ImageProcessing.getRed(imagePixel)) ;
+		EA += Math.abs(ImageProcessing.getGreen(patternPixel)-ImageProcessing.getGreen(imagePixel)) ;
+		EA += Math.abs(ImageProcessing.getBlue(patternPixel)-ImageProcessing.getBlue(imagePixel)) ;
+		EA /= 3.0 ; 
+
+		return EA ; 
 	}
 
 	/**
@@ -30,9 +31,19 @@ public class DistanceBasedSearch {
 	 * should return -1 if the denominator is -1
 	 */
 	public static double meanAbsoluteError(int row, int col, int[][] pattern, int[][] image) {
-
-    	// TODO implement me !
-		return -2; 
+		double EAM = 0;
+		for (int i=0; i<pattern.length; i++) {
+			for (int j=0; j<pattern[i].length; j++) {
+				EAM += pixelAbsoluteError(pattern[i][j], image[row + i][col + j]) ; 
+			}
+		}
+		int d = (pattern.length * pattern[0].length) ;
+		if (d==-1) {
+			return -1 ;
+		} else {
+			 EAM /= d  ; 
+		}
+		return EAM; 
 	}
 
 	/**
@@ -44,8 +55,12 @@ public class DistanceBasedSearch {
 	 * placed over this pixel (upper-left corner) 
 	 */
 	public static double[][] distanceMatrix(int[][] pattern, int[][] image) {
-
-    	// TODO implement me !
-		return new double[][]{}; 
+		double[][] distanceMatrix = new double [image.length][image[0].length] ;
+		for (int i=0; i < (image.length-pattern.length); i++) {
+			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
+				distanceMatrix [i][j] = meanAbsoluteError(i, j, pattern, image) ;
+			}
+		}
+		return distanceMatrix;  
 	}
 }
