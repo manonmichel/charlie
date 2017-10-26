@@ -9,9 +9,12 @@ public class DistanceBasedSearch {
 	 * @return a double, the value of the error for the RGB pixel pair. (an integer in [0, 255])
 	 */
 	public static double pixelAbsoluteError(int patternPixel, int imagePixel) {
-
-    	// TODO implement me !
-		return -2;
+		int somme = 0; 
+		somme += Math.abs(ImageProcessing.getRed(patternPixel)-ImageProcessing.getRed(imagePixel)) ;
+		somme += Math.abs(ImageProcessing.getGreen(patternPixel)-ImageProcessing.getGreen(imagePixel)) ;
+		somme += Math.abs(ImageProcessing.getBlue(patternPixel)-ImageProcessing.getBlue(imagePixel)) ;
+		somme /= 3.0 ; 
+		return somme ; 
 	}
 
 	/**
