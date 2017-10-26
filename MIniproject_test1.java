@@ -81,6 +81,16 @@ public class MIniproject_test1 {
     		return grayImage;
     		
 	    }
+	
+	 public static int[][] toRGB(double[][] gray) {
+    		int[][] colorImage = new int [gray.length][gray[0].length];
+    		for (int i=0; i < gray.length; ++i ) {
+    			for (int j=0; j < gray[i].length; j++) {
+    			colorImage[i][j] = getRGB(gray[i][j]);
+    			}	
+    		}
+    	return colorImage;
+    	}
     		
     	    public static double getGray(int rgb) {
         		double moyenne = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3.0;
