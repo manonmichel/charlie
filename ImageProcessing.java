@@ -43,8 +43,8 @@ public final class ImageProcessing {
      * @see #getRGB(int, int, int)
      */
     public static int getBlue(int rgb) {
-    	int valBlue=rgb & 0b11111111; // using mask &
-        return valBlue;
+    	int blue=rgb & 0b11111111; // using mask &
+        return blue;
     }
 
    
