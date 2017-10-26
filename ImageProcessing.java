@@ -108,13 +108,17 @@ public final class ImageProcessing {
      * @see #decode
      * @see #getRGB(double)
      */
+ 
     public static int[][] toRGB(double[][] gray) {
-
-    	// TODO implement me !
-    	return new int[][]{};
+    	int[][] colorImage = new int [gray.length][gray[0].length];
+    	for (int i=0; i < gray.length; ++i ) {
+    		for (int j=0; j < gray[i].length; j++) {
+    			colorImage[i][j] = getRGB(gray[i][j]);
+    		}
+    	}
+    	return colorImage;
     }
-
-    
+	
     /**
      * Convert an arbitrary 2D double matrix into a 2D integer matrix 
      * which can be used as RGB image
