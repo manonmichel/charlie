@@ -13,7 +13,7 @@ public class Collector {
 	
 	
 	
-	/** /!\ Les if dans des if me paraissent un peu dangereux though, il faut en discuter! En attendants je mets en mode annotation.
+	/** /!\ Les if dans des if me paraissent un peu dangereux though, il faut en discuter! En attendant je mets en mode annotation.
 	
 public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 	
