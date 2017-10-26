@@ -128,7 +128,12 @@ public final class ImageProcessing {
      * @return an 2D integer array, containing a RGB mapping of the matrix 
      */
     public static int[][] matrixToRGBImage(double[][] matrix, double min, double max) {
-    	// TODO implement me !
+	    	int[][] res = new int [matrix.length][matrix[0].length];
+	    	for (int i=0; i < matrix.length; ++i ) {
+	    		for (int j=0; j < matrix[i].length; j++) {
+	    			res[i][j] = (int) (((matrix[i][j]-min)/max)*255)  ; 
+	    		}
+	    	}
     	return new int[][]{}; 
     }
 }
