@@ -1,6 +1,19 @@
 package main;
 public final class ImageProcessing {
 	
+	/** /!\ Methode verif a tester. Et du coup au lieu de return red, green, blue, on retournerait verif(red), verif(green) 
+	et verif(blue) (?)
+	
+	public static int verif(int value) {
+		if (value<0) {
+			value=0;
+		}
+		else if (value>255) {
+			value=255;
+		}
+		return value;
+	} **/
+	
     /**
      * Returns red component from given packed color.
      * @param rgb : a 32-bits RGB color
