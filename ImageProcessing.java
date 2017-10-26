@@ -126,6 +126,6 @@ public final class ImageProcessing {
      */
     public static int[][] matrixToRGBImage(double[][] matrix, double min, double max) {
     	// TODO implement me !
-    	return new int[][]{};
+    	return new int[][]{}; 
     }
 }
