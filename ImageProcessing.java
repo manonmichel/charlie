@@ -16,15 +16,8 @@ public final class ImageProcessing {
      * @see #getRGB(int, int, int)
      */
     public static int getRed(int rgb) {
-    		String sRGB = "" + rgb;
-    		int red = 0; 
-    		for (int i=2; i<10; i++) {
-    			int a = (int) sRGB.charAt(i) ; 
-    			for (int j=0; j<8; j++) {
-    				red += (a * power(2, j)) ;
-    			}
-    		}
-    	return red; 
+	int red = rgb >> 16; // using shift
+	return red; 
     }
 
     /**
@@ -36,15 +29,9 @@ public final class ImageProcessing {
      * @see #getRGB(int, int, int)
      */
     public static int getGreen(int rgb) {
-		String sRGB = "" + rgb;
-		int green = 0; 
-		for (int i=11; i<19; i++) {
-			int a = (int) sRGB.charAt(i) ; 
-			for (int j=0; j<8; j++) {
-				green += (a * power(2, j)) ;
-			}
-		}
-    	return green; 
+	int green = rgb >> 8;  // using shift
+	green = green & 0b11111111 ; // using mask &
+	return green;  
     }
 
     /**
