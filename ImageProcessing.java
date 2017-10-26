@@ -79,7 +79,6 @@ public final class ImageProcessing {
      * @see #getGray
      */
     public static int getRGB(double gray) {
-    	public static int getRGB(double gray) {
 	int grayRound = (int) Math.round(gray);
 	int graytoRGB = getRGB(grayRound,grayRound,grayRound);
 	return graytoRGB;
