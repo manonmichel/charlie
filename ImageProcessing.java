@@ -73,8 +73,9 @@ public final class ImageProcessing {
      * @see #getBlue
      */
     public static int getRGB(int red, int green, int blue) {
-    	// TODO implement me !
-    	return -2; 
+	String rgb =  String.format("%1$02x",red) + String.format("%1$02x",green) + String.format("%1$02x",blue); // converts each value to hex and creates a string with the latter
+	int valueOfRGB = Integer.valueOf(rgb, 16) ; // converts hex string to int
+	return valueOfRGB ; 
     }
 
     /**
