@@ -98,6 +98,7 @@ public final class ImageProcessing {
 			grayImage [i][j] = getGray(image[i][j]) ;
 		}
 	}
+	return grayImage ;
     }
 
     /**
