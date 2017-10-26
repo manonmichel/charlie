@@ -1,8 +1,8 @@
-
-
+package main;
 public class MIniproject_test1 {
 		public static void main(String[] args){
-			testGetRed();
+			//System.out.println(getRGB(127, 127, 127) );
+			testGrayscale() ;
 	   }
 	    public static void testGetRed() { 
 			int color = 0b11110000_00001111_01010101;
@@ -15,21 +15,41 @@ public class MIniproject_test1 {
 				System.out.println("Test failed. Returned value = " + red + " Expected value = " + ref);
 			}
 	    }
-	    public static int getRed(int rgb) {
-			String sRGB = Integer.toBinaryString(rgb);
-			int red = 0; 
-			//System.out.println(sRGB);
-			for (int i=0; i<8; i++) {
-				int a =  (int) sRGB.charAt(i) -48 ; // pour passer du unicode a int
-				System.out.println(sRGB.charAt(i) + "   " + a) ;
-				for (int j=7; j>=0; j--) {
-					red += (a * power(2, j)) ;
-					System.out.print("     " + red + "     ");  // Problem, it does: (1*2^7 + 1*2^6 + ... + 1*2^0)  + (1*2^7 + 1*2^6 + ... + 1*2^0) + ... + (0*2^7 +...)
-				}
+	    
+	    public static void testGetGreen() { 
+			int color = 0b11110000_00001111_01010101;
+			System.out.println(Integer.toBinaryString(color));
+			int ref = 0b00001111;
+			int green = getGreen(color);
+			if (green == ref) {
+				System.out.println("Test passed   " + ref);
+			} else {
+				System.out.println("Test failed. Returned value = " + green + " Expected value = " + ref);
 			}
-		System.out.println(red) ;
-		return red; 
-	}
+	    }
+	    
+	    public static int getRGB(int red, int green, int blue) {
+	    		String rgb =  String.format("%1$02x",red) + String.format("%1$02x",green) + String.format("%1$02x",blue);
+	    		int valueOf = Integer.valueOf(rgb, 16) ;
+	    		return valueOf ; 
+	    	}
+	    
+	    public static int getRed(int rgb) {
+			int red = rgb >> 16;
+			return red; 
+	    }
+	    
+	    public static int getGreen(int rgb) {
+			int green = rgb >> 8;
+			green = green & 0b11111111 ;
+			return green; 
+	    }
+	    
+	    public static int getBlue(int rgb) {
+    			int blue=rgb & 0b11111111; // using mask &
+    			return blue;
+	    }
+	    
 		public static int power(int a, int b) {
 			int result = 1;
 			for (int i = 1; i <= b; i++) {
@@ -37,5 +57,37 @@ public class MIniproject_test1 {
 			}
 			return result ; 
 		}
-	}
+		
+	    public static void testGrayscale() {
+	    	System.out.println("Test Grayscale");
+	     	int[][] image = Helper.read("images/food.png");
+	    	double[][] gray = toGray(image);
+	    	Helper.show(toRGB(gray), "test bw");
+	    }
+	    
+	    	public static int getRGB(double gray) {
+			int grayRound = (int) Math.round(gray);
+			int graytoRGB = getRGB(grayRound,grayRound,grayRound);
+			return graytoRGB;
+	    }
+	    
+	    public static double[][] toGray(int[][] image) {
+    		double[][] grayImage = new double [image.length][image[0].length] ;
+    		for (int i=0; i < image.length; i++) {
+    			for (int j=0; j<image[i].length; j++)  {
+    				grayImage [i][j] = getGray(image[i][j]) ;
+    			}
+    		}
+    		return grayImage;
+    		
+	    }
+    		
+    	    public static double getGray(int rgb) {
+        		double moyenne = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3.0;
+        		return moyenne;
+        }
+    	    
+
+    	    
+}
 
