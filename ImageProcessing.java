@@ -58,7 +58,7 @@ public final class ImageProcessing {
      * @see #getRGB(int)
      */
     public static double getGray(int rgb) {
-	double moyenne = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3;
+	double moyenne = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3.0;
     	return moyenne;
     }
 
