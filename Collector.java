@@ -13,40 +13,49 @@ public class Collector {
 	
 	
 	
-	/** /!\ Les if dans des if me paraissent un peu dangereux though, il faut en discuter! En attendant je mets en mode annotation.
-	
 public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 	
-	int[] coordonnees = new int[]{};
+	int[] bestCoord = new int[]{};
 	
-	double bestdistance = matrix[0][0];
-	
-	for (int i=0; i<matrix.length;i++) {
-		for (int j=0; j<matrix[i].length;j++) {
-					
-				if (smallestFirst) {
-					if (bestdistance < matrix[i][j]) {
-						bestdistance+=0;
-					}
-					else {
-						bestdistance=matrix[i][j];
-					}
+	if (smallestFirst) {
+		
+		double bestdistance = Double.NEGATIVE_INFINITY;
+		
+		for (int i=0;i<matrix.length;i++) {
+			for (int j=0; j<matrix[i].length;j++) {
+				if (bestdistance<matrix[i][j]) {
+					bestdistance+=0;
 				}
 				
 				else {
-					if (bestdistance > matrix[i][j]) {
-						bestdistance+=0;
-					}
-					else {
-						bestdistance=matrix[i][j];
-					}
+					bestdistance=matrix[i][j];
 				}
-				coordonnees[0]=i;
-				coordonnees[1]=j;
+				bestCoord[0]=i;
+				bestCoord[1]=j;
+			}
 		}
 	}
-	return coordonnees;
-} **/
+	
+	else {
+		
+		double bestdistance = Double.POSITIVE_INFINITY;
+			
+		for (int i=0;i<matrix.length;i++) {
+			for (int j=0; j<matrix[i].length;j++) {
+				if (bestdistance>matrix[i][j]) {
+					bestdistance+=0;
+				}
+					
+				else {
+					bestdistance=matrix[i][j];
+				}
+				bestCoord[0]=i;
+				bestCoord[1]=j;
+			}
+		}
+	}
+	return bestCoord;
+}
     	
 
 	
