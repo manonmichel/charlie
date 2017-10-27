@@ -14,46 +14,45 @@ public class Collector {
 	
 	
 public static int[] findBest(double[][] matrix, boolean smallestFirst) {
-	
-	int[] bestCoord = new int[]{};
-	
+
+	int[] bestCoord = new int[2];
+
 	if (smallestFirst) {
-		
+
+		double bestdistance = Double.POSITIVE_INFINITY;
+
+		for (int i=0; i<matrix.length; i++) {
+			for (int j=0; j<matrix[i].length;j++) {
+				//System.out.print(matrix [i][j]) ;
+				if (bestdistance>matrix[i][j] && matrix[i][j]!=0) {  // Pour corriger des erreurs liées à la valeur 0
+					bestdistance = matrix[i][j]; 
+					bestCoord[0]=i;
+					bestCoord[1]=j;
+				}
+			}
+			//System.out.println();
+		}
+	}
+
+	else {
+
 		double bestdistance = Double.NEGATIVE_INFINITY;
-		
+
 		for (int i=0;i<matrix.length;i++) {
 			for (int j=0; j<matrix[i].length;j++) {
 				if (bestdistance<matrix[i][j]) {
-					bestdistance+=0;
+					bestdistance = matrix[i][j];
+
+					bestCoord[0]=i;
+					bestCoord[1]=j;
 				}
-				
-				else {
-					bestdistance=matrix[i][j];
-				}
-				bestCoord[0]=i;
-				bestCoord[1]=j;
+
+
 			}
 		}
 	}
-	
-	else {
-		
-		double bestdistance = Double.POSITIVE_INFINITY;
-			
-		for (int i=0;i<matrix.length;i++) {
-			for (int j=0; j<matrix[i].length;j++) {
-				if (bestdistance>matrix[i][j]) {
-					bestdistance+=0;
-				}
-					
-				else {
-					bestdistance=matrix[i][j];
-				}
-				bestCoord[0]=i;
-				bestCoord[1]=j;
-			}
-		}
-	}
+	//Helper.show(ImageProcessing.matrixToRGBImage(matrix, 0, 255), "Distance 2");
+	//System.out.println(matrix[bestCoord[0]][bestCoord[1]]);
 	return bestCoord;
 }
     	
@@ -67,9 +66,21 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 	 * @return an array of size n containing row, column-coordinate pairs
 	 */
 	public static int[][] findNBest(int n, double[][] matrix, boolean smallestFirst) {
-
-    	// TODO implement me !
-		return new int[][]{};
+		double [][] matrixCopy = new double [matrix.length][matrix[0].length] ; 
+		int [][] bestNCoord = new int [n][2] ; 
+		for (int i=0; i<n; i++) {
+			int [] bestCoord = findBest(matrixCopy, smallestFirst) ; 
+			bestNCoord[i][0] = bestCoord[0] ;
+			bestNCoord[i][1] = bestCoord[1] ;
+			
+			if (smallestFirst) {
+				matrixCopy[bestCoord[0]][bestCoord[1]] = Double.POSITIVE_INFINITY ;
+			} else {
+				matrixCopy[bestCoord[0]][bestCoord[1]] = Double.NEGATIVE_INFINITY ;
+			}
+			
+		}
+		return bestNCoord;
 	}
 	
 	
