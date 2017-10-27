@@ -141,12 +141,23 @@ public final class ImageProcessing {
      * @return an 2D integer array, containing a RGB mapping of the matrix 
      */
     public static int[][] matrixToRGBImage(double[][] matrix, double min, double max) {
-	    	int[][] res = new int [matrix.length][matrix[0].length];
+	    testMatrix(matrix) ; 
+	    double[][] grayImage = new double [matrix.length][matrix[0].length] ; 
 	    	for (int i=0; i < matrix.length; ++i ) {
 	    		for (int j=0; j < matrix[i].length; j++) {
-	    			res[i][j] = (int) (((matrix[i][j]-min)/max)*255)  ; 
+	    			grayImage[i][j] = ((matrix[i][j]-min)/max)*255 ; 
+	    			  
+	    			//System.out.print(res[i][j] + "  ") ;
 	    		}
+	    		//System.out.println();
 	    	}
-    	return new int[][]{}; 
+    	return toRGB(grayImage); 
+    }
+    
+    public static void testMatrix(double[][] matrix) {
+    		if (matrix.length<1 || matrix[0].length<1) {
+    			System.out.print("Error: The matrix is not valid");
+    			return ; 
+    		}
     }
 }
