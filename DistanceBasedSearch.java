@@ -28,7 +28,6 @@ public class DistanceBasedSearch {
 	 * @return a double, the mean absolute error
 	 * @return a double, mean absolute error value at position (row, col) between the pattern and the part of
 	 * the base image that is covered by the pattern, if the pattern is shifted by x and y.
-	 * should return -1 if the denominator is -1
 	 */
 	public static double meanAbsoluteError(int row, int col, int[][] pattern, int[][] image) {
 		double EAM = 0;
