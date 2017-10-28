@@ -4,11 +4,11 @@ public class Program {
 	
 	public static void main(String[] args){
 		
-		String refbgCharlie = "images/charlie_beach.png";
-		String refpatternCharlie = "images/charlie.png";
+		String refBgCharlie = "images/charlie_beach.png";
+		String refPatternCharlie = "images/charlie.png";
 	
-	 	int[][] bgCharlie = Helper.read(refbgCharlie);
-	 	int[][] patternCharlie = Helper.read(refpatternCharlie);
+	 	int[][] bgCharlie = Helper.read(refBgCharlie);
+	 	int[][] patternCharlie = Helper.read(refPatternCharlie);
 	 	
 	 	double[][] distance = DistanceBasedSearch.distanceMatrix(patternCharlie, bgCharlie); 			
 	 	int[] p = Collector.findBest(distance, true);
