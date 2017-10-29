@@ -8,11 +8,28 @@ public class SimilarityBasedSearch {
 	 * @return a double value between 0 and 255 which is the mean value
 	 */
 	public static double mean(double[][] image) {
-		
-		// TODO implement me !
-		return -2; 
+		double mean = 0;
+		for (int i=0; i < image.length; ++i ) {
+    			for (int j=0; j < image[i].length; j++) {
+    				mean+= image[i][j] ; 
+    			}
+		}
+		mean /= (image.length*image[0].length) ; 
+		return mean ; 
 	}
-
+	/**
+	public static double windowMean( double [][] matrix, int row, int col, int width, int height) {
+		double mean = 0;
+		for (int i=0; i < matrix.length; ++i ) {
+    			for (int j=0; j < matrix[i].length; j++) {
+    				mean+= matrix[i][j] ; 
+    			}
+		}
+		mean /= width*height ; 
+		return mean ; 
+	
+	}
+	**/ 
 	
 	/**
 	 * Computes the Normalized Cross Correlation of a gray-scale pattern if positioned
@@ -26,9 +43,33 @@ public class SimilarityBasedSearch {
 	 * should return -1 if the denominator is 0
 	 */
 	public static double normalizedCrossCorrelation(int row, int col, double[][] pattern, double[][] image) {
+		// Initialisation des variables 
+		double nccPattern = 0; 
+		double nccImage = 0; 
+		double innerProduct = 0;
+		double nccImageSqrSum = 0;
+		double nccPatternSqrSum = 0; 
 		
-		// TODO implement me !
-		return -2; 
+		// Boucles 
+		for (int i=0; i < pattern.length; ++i ) {
+			for (int j=0; j < pattern[i].length; j++) {
+				nccPattern = pattern[i][j] - mean(pattern) ; 
+				nccImage = image[i+row][j+col]- mean(image) ; 
+				innerProduct += (nccImage)*(nccPattern) ; 
+				nccImageSqrSum += (nccImage)*(nccImage) ; 
+				nccPatternSqrSum += (nccPattern)*(nccPattern) ; 	
+			}
+		}
+		
+		// Verification du cas limite 
+		double denom = Math.sqrt(nccImageSqrSum*nccPatternSqrSum) ;
+		if (denom==0) {
+			return -1 ;
+		} else {
+			return (innerProduct)/(denom);
+		}
+		
+		 
 	}
 
 	
