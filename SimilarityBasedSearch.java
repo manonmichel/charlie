@@ -82,9 +82,13 @@ public class SimilarityBasedSearch {
 	 * placed over this pixel (upper-left corner)
 	 */
 	public static double[][] similarityMatrix(double[][] pattern, double[][] image) {
-		
-		// TODO implement me !
-		return new double[][]{}; 
+		double[][] similarityMatrix = new double [image.length][image[0].length] ;
+		for (int i=0; i < (image.length-pattern.length); i++) {
+			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
+				similarityMatrix [i][j] = normalizedCrossCorrelation(i, j, pattern, image) ;
+			}
+		}
+		return similarityMatrix; 
 	}
 
 }
