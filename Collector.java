@@ -66,13 +66,22 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 	 * @return an array of size n containing row, column-coordinate pairs
 	 */
 	public static int[][] findNBest(int n, double[][] matrix, boolean smallestFirst) {
+		// Creating copy of matrix
 		double [][] matrixCopy = new double [matrix.length][matrix[0].length] ; 
+		for (int i=0; i < (matrix.length); i++) {
+			for (int j=0; j<(matrix[i].length); j++)  {
+				matrixCopy[i][j] = matrix[i][j] ;
+			}
+		}
+		
+		// Computing n best coordinates
 		int [][] bestNCoord = new int [n][2] ; 
-		for (int i=0; i<n; i++) {
+		for (int k=0; k<n; k++) {
 			int [] bestCoord = findBest(matrixCopy, smallestFirst) ; 
-			bestNCoord[i][0] = bestCoord[0] ;
-			bestNCoord[i][1] = bestCoord[1] ;
-			
+			bestNCoord[k][0] = bestCoord[0] ;
+			bestNCoord[k][1] = bestCoord[1] ;
+		
+		// Eliminating best coordinate by replacing with infinite value 
 			if (smallestFirst) {
 				matrixCopy[bestCoord[0]][bestCoord[1]] = Double.POSITIVE_INFINITY ;
 			} else {
@@ -80,6 +89,7 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 			}
 			
 		}
+		
 		return bestNCoord;
 	}
 	
