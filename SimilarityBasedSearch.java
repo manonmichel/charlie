@@ -49,12 +49,14 @@ public class SimilarityBasedSearch {
 		double innerProduct = 0;
 		double nccImageSqrSum = 0;
 		double nccPatternSqrSum = 0; 
+		double meanPattern = mean(pattern) ; 
+		double meanImage = mean(image) ;
 		
 		// Boucles 
 		for (int i=0; i < pattern.length; ++i ) {
 			for (int j=0; j < pattern[i].length; j++) {
-				nccPattern = pattern[i][j] - mean(pattern) ; 
-				nccImage = image[i+row][j+col]- mean(image) ; 
+				nccPattern = pattern[i][j] - meanPattern; 
+				nccImage = image[i+row][j+col]- meanImage ; 
 				innerProduct += (nccImage)*(nccPattern) ; 
 				nccImageSqrSum += (nccImage)*(nccImage) ; 
 				nccPatternSqrSum += (nccPattern)*(nccPattern) ; 	
