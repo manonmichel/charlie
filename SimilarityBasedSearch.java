@@ -8,28 +8,25 @@ public class SimilarityBasedSearch {
 	 * @return a double value between 0 and 255 which is the mean value
 	 */
 	public static double mean(double[][] image) {
+		// Requirement: valid image (at least one pixel)
+		assert (image.length > 0) ;
+		
+		// Initialization of variables
 		double mean = 0;
+		
+		// Computation: sum of each element in matrix divided by dimension of matrix
 		for (int i=0; i < image.length; ++i ) {
     			for (int j=0; j < image[i].length; j++) {
     				mean+= image[i][j] ; 
     			}
 		}
 		mean /= (image.length*image[0].length) ; 
+		
+		//Requirement: output between 0 and 255 
+		assert mean>=0 && mean<256 ; 
 		return mean ; 
 	}
-	/**
-	public static double windowMean( double [][] matrix, int row, int col, int width, int height) {
-		double mean = 0;
-		for (int i=0; i < matrix.length; ++i ) {
-    			for (int j=0; j < matrix[i].length; j++) {
-    				mean+= matrix[i][j] ; 
-    			}
-		}
-		mean /= width*height ; 
-		return mean ; 
-	
-	}
-	**/ 
+
 	
 	/**
 	 * Computes the Normalized Cross Correlation of a gray-scale pattern if positioned
@@ -43,7 +40,10 @@ public class SimilarityBasedSearch {
 	 * should return -1 if the denominator is 0
 	 */
 	public static double normalizedCrossCorrelation(int row, int col, double[][] pattern, double[][] image) {
-		// Initialisation des variables 
+		// Requirement: pattern and image contain at least 1 pixel 
+		assert (pattern.length > 0) && (image.length > 0) ; 
+		
+		// Initialization of variables and constants
 		double nccPattern = 0; 
 		double nccImage = 0; 
 		double innerProduct = 0;
@@ -52,7 +52,7 @@ public class SimilarityBasedSearch {
 		double meanPattern = mean(pattern) ; 
 		double meanImage = mean(image) ;
 		
-		// Boucles 
+		// Computation 
 		for (int i=0; i < pattern.length; ++i ) {
 			for (int j=0; j < pattern[i].length; j++) {
 				nccPattern = pattern[i][j] - meanPattern; 
@@ -84,12 +84,20 @@ public class SimilarityBasedSearch {
 	 * placed over this pixel (upper-left corner)
 	 */
 	public static double[][] similarityMatrix(double[][] pattern, double[][] image) {
+		// Requirement: pattern and image contain at least 1 pixel 
+		assert (pattern.length > 0) && (image.length > 0) ; 
+		
+		// Initialization of output matrix
 		double[][] similarityMatrix = new double [image.length][image[0].length] ;
+		
+		// Implementation of output matrix 
 		for (int i=0; i < (image.length-pattern.length); i++) {
 			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
 				similarityMatrix [i][j] = normalizedCrossCorrelation(i, j, pattern, image) ;
 			}
 		}
+		
+		// Output 
 		return similarityMatrix; 
 	}
 
