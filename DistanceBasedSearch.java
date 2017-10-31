@@ -9,14 +9,20 @@ public class DistanceBasedSearch {
 	 * @return a double, the value of the error for the RGB pixel pair. (an integer in [0, 255])
 	 */
 	public static double pixelAbsoluteError(int patternPixel, int imagePixel) {
+		// Initialization of variables
 		int EA = 0; 
+		
+		// Computation: Sum of absolute difference for each color composition
+		//              and division by cardinality 
 		EA += Math.abs(ImageProcessing.getRed(patternPixel)-ImageProcessing.getRed(imagePixel)) ;
 		EA += Math.abs(ImageProcessing.getGreen(patternPixel)-ImageProcessing.getGreen(imagePixel)) ;
 		EA += Math.abs(ImageProcessing.getBlue(patternPixel)-ImageProcessing.getBlue(imagePixel)) ;
 		EA /= 3.0 ; 
-
+		
+		// Output
 		return EA ; 
 	}
+	
 
 	/**
 	 * Computes the mean absolute error loss of a RGB pattern if positioned
@@ -30,19 +36,21 @@ public class DistanceBasedSearch {
 	 * the base image that is covered by the pattern, if the pattern is shifted by x and y.
 	 */
 	public static double meanAbsoluteError(int row, int col, int[][] pattern, int[][] image) {
+		// Requirement: pattern and image contain at least 1 pixel 
+		assert (pattern.length > 0) && (image.length > 0) ; 
+		
+		// Initialization of variables & constants
 		double EAM = 0;
+		int d = (pattern.length * pattern[0].length) ;
+		
+		// Computation
 		for (int i=0; i<pattern.length; i++) {
 			for (int j=0; j<pattern[i].length; j++) {
 				EAM += pixelAbsoluteError(pattern[i][j], image[row + i][col + j]) ; 
 			}
 		}
-		int d = (pattern.length * pattern[0].length) ;
-		if (d==-1) {
-			return -1 ;
-		} else {
-			 EAM /= d  ; 
-		}
-		return EAM; 
+		// Output : division of the sum of absolute errors by number of pixels
+		return EAM /= d; 
 	}
 
 	/**
@@ -54,12 +62,22 @@ public class DistanceBasedSearch {
 	 * placed over this pixel (upper-left corner) 
 	 */
 	public static double[][] distanceMatrix(int[][] pattern, int[][] image) {
+		// Requirement: pattern and image contain at least 1 pixel 
+		assert (pattern.length > 0) && (image.length > 0) ; 
+		// Requirement: pattern can be contained fully in image
+		assert (image.length >= pattern.length) && (image[0].length >= pattern[0].length) ; 
+		
+		// Initialization of output matrix
 		double[][] distanceMatrix = new double [image.length][image[0].length] ;
+		
+		// Computation: implementation of mean absolute error between 
+		//              pattern and image for each pixel of image
 		for (int i=0; i < (image.length-pattern.length); i++) {
 			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
 				distanceMatrix [i][j] = meanAbsoluteError(i, j, pattern, image) ;
 			}
 		}
-		return distanceMatrix;  
+		// Output
+		return distanceMatrix; 
 	}
 }
