@@ -1,18 +1,19 @@
 package main;
 public final class ImageProcessing {
 	
-	/** /!\ Methode verif a tester. Et du coup au lieu de return red, green, blue, on retournerait verif(red), verif(green) 
-	et verif(blue) (?)
 	
-	public static int verif(int value) {
+	public static int verif(int value) { // Method that deals with values that 
+										// are not between 0 and 255
 		if (value<0) {
 			value=0;
 		}
 		else if (value>255) {
 			value=255;
 		}
+		
 		return value;
-	} **/
+	} 
+	
 	
     /**
      * Returns red component from given packed color.
@@ -23,8 +24,13 @@ public final class ImageProcessing {
      * @see #getRGB(int, int, int)
      */
     public static int getRed(int rgb) {
-	int red = rgb >> 16; // using shift
-	return red; 
+    		// Computation
+		int red = rgb >> 16; // masks green and blue values
+		red = red & 0b11111111 ; // masks alpha value 
+		
+		// Requirement: output between 0 and 255
+		assert red>=0 && red<256 ; 
+		return red; 
     }
 
     /**
@@ -36,9 +42,13 @@ public final class ImageProcessing {
      * @see #getRGB(int, int, int)
      */
     public static int getGreen(int rgb) {
-	int green = rgb >> 8;  // using shift
-	green = green & 0b11111111 ; // using mask &
-	return green;  
+    		// Computation
+		int green = rgb >> 8;  // using shift
+		green = green & 0b11111111 ; // using mask &
+		
+		// Requirement: output between 0 and 255 
+		assert green>=0 && green<256 ; 
+		return green;  
     }
 
     /**
@@ -50,7 +60,11 @@ public final class ImageProcessing {
      * @see #getRGB(int, int, int)
      */
     public static int getBlue(int rgb) {
-    	int blue=rgb & 0b11111111; // using mask &
+    		// Computation
+    		int blue=rgb & 0b11111111; // using mask &
+    		
+    		// Requirement: output between 0 and 255 
+    		assert blue>=0 && blue<256 ; 
         return blue;
     }
 
@@ -65,8 +79,12 @@ public final class ImageProcessing {
      * @see #getRGB(int)
      */
     public static double getGray(int rgb) {
-	double moyenne = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3.0;
-    	return moyenne;
+    		// Computation 
+		double mean = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3.0;
+		
+		// Requirement: output between 0 and 255 
+		assert mean>=0 && mean<256 ; 
+	    	return mean;
     }
 
     /**
@@ -80,6 +98,11 @@ public final class ImageProcessing {
      * @see #getBlue
      */
     public static int getRGB(int red, int green, int blue) {
+    		// Requirement: inputs between 0 and 255 
+    		red = verif(red) ; 
+    		green = verif(green) ;
+    		blue = verif(blue) ;
+    	
     		int rgb = (red << 16) | (green << 8) | blue ; 
 		return rgb ; 
     }  
@@ -90,10 +113,13 @@ public final class ImageProcessing {
      * @return a 32-bits RGB color
      * @see #getGray
      */
-    public static int getRGB(double gray) {
-	int grayRound = (int) Math.round(gray);
-	int graytoRGB = getRGB(grayRound,grayRound,grayRound);
-	return graytoRGB;
+    	public static int getRGB(double gray) {
+    		// Requirement: inputs between 0 and 255 
+		int grayRound = (int) Math.round(gray);
+		gray = verif(grayRound) ; 
+		
+		int graytoRGB = getRGB(grayRound,grayRound,grayRound);
+		return graytoRGB;
     }
 
     /**
@@ -104,13 +130,20 @@ public final class ImageProcessing {
      * @see #getGray
      */
     public static double[][] toGray(int[][] image) {
-	double[][] grayImage = new double [image.length][image[0].length] ;
-	for (int i=0; i < image.length; i++) {
-		for (int j=0; j<image[i].length; j++)  {
-			grayImage [i][j] = getGray(image[i][j]) ;
+		// Requirement: valid image (at least one pixel)
+		assert (image.length > 0) ;
+    		
+    		
+    	
+		double[][] grayImage = new double [image.length][image[0].length] ;
+		for (int i=0; i < image.length; i++) {
+			for (int j=0; j<image[i].length; j++)  {
+				grayImage [i][j] = getGray(image[i][j]) ;
+			}
 		}
-	}
-	return grayImage ;
+		// Requirement: non-null output table 
+		assert grayImage != null ; 
+		return grayImage ; 
     }
 
     /**
@@ -120,17 +153,23 @@ public final class ImageProcessing {
      * @see #decode
      * @see #getRGB(double)
      */
- 
     public static int[][] toRGB(double[][] gray) {
-    	int[][] colorImage = new int [gray.length][gray[0].length];
-    	for (int i=0; i < gray.length; ++i ) {
-    		for (int j=0; j < gray[i].length; j++) {
-    			colorImage[i][j] = getRGB(gray[i][j]);
-    		}
-    	}
-    	return colorImage;
+		// Requirement: non-empty table 
+		assert (gray.length > 0) ;
+    	
+	    	int[][] rgb = new int [gray.length][gray[0].length];
+	    	for (int i=0; i < gray.length; ++i ) {
+	    		for (int j=0; j < gray[i].length; j++) {
+	    			rgb[i][j] = getRGB(gray[i][j]);
+	    		}
+	    	}
+		// Requirement: non-empty output table 
+		assert (rgb.length > 0) ;
+	    	return rgb;
     }
-	
+    
+
+    
     /**
      * Convert an arbitrary 2D double matrix into a 2D integer matrix 
      * which can be used as RGB image
@@ -145,10 +184,7 @@ public final class ImageProcessing {
 	    	for (int i=0; i < matrix.length; ++i ) {
 	    		for (int j=0; j < matrix[i].length; j++) {
 	    			grayImage[i][j] = ((matrix[i][j]-min)/max)*255 ; 
-	    			  
-	    			//System.out.print(res[i][j] + "  ") ;
 	    		}
-	    		//System.out.println();
 	    	}
     	return toRGB(grayImage); 
     }
