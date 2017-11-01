@@ -1,198 +1,205 @@
 package main;
-public final class ImageProcessing {
+
+/**
+ * 
+ * @author Manon Michel
+ * @author Ellie Rabarison
+ *	Where is Charlie Project 
+ *
+ */
+public final class Main {
+
+	/* 
+	 * This class is incomplete!!
+	 * 
+	 * You are expected to write at least one testcase for each required method.
+	 * You will find some examples of testcases below.
+	 */
 	
-	
-	public static int verif(int value) { // Method that deals with values that 
-										// are not between 0 and 255
-		if (value<0) {
-			value=0;
-		}
-		else if (value>255) {
-			value=255;
-		}
-		
-		return value;
-	} 
-	
-	
-    /**
-     * Returns red component from given packed color.
-     * @param rgb : a 32-bits RGB color
-     * @return an integer,  between 0 and 255
-     * @see #getGreen
-     * @see #getBlue
-     * @see #getRGB(int, int, int)
-     */
-    public static int getRed(int rgb) {
-    		// Computation
-		int red = rgb >> 16; // masks green and blue values
-		red = red & 0b11111111 ; // masks alpha value 
-		
-		// Requirement: output between 0 and 255
-		assert red>=0 && red<256 ; 
-		return red; 
-    }
-
-    /**
-     * Returns green component from given packed color.
-     * @param rgb : a 32-bits RGB color
-     * @return an integer between 0 and 255
-     * @see #getRed
-     * @see #getBlue
-     * @see #getRGB(int, int, int)
-     */
-    public static int getGreen(int rgb) {
-    		// Computation
-		int green = rgb >> 8;  // using shift
-		green = green & 0b11111111 ; // using mask &
-		
-		// Requirement: output between 0 and 255 
-		assert green>=0 && green<256 ; 
-		return green;  
-    }
-
-    /**
-     * Returns blue component from given packed color.
-     * @param rgb : a 32-bits RGB color
-     * @return an integer between 0 and 255
-     * @see #getRed
-     * @see #getGreen
-     * @see #getRGB(int, int, int)
-     */
-    public static int getBlue(int rgb) {
-    		// Computation
-    		int blue=rgb & 0b11111111; // using mask &
-    		
-    		// Requirement: output between 0 and 255 
-    		assert blue>=0 && blue<256 ; 
-        return blue;
-    }
-
-   
-    /**
-     * Returns the average of red, green and blue components from given packed color.
-     * @param rgb : 32-bits RGB color
-     * @return a double between 0 and 255
-     * @see #getRed
-     * @see #getGreen
-     * @see #getBlue
-     * @see #getRGB(int)
-     */
-    public static double getGray(int rgb) {
-    		// Computation 
-		double mean = (getRed(rgb)+getGreen(rgb)+getBlue(rgb))/3.0;
-		
-		// Requirement: output between 0 and 255 
-		assert mean>=0 && mean<256 ; 
-	    	return mean;
-    }
-
-    /**
-     * Returns packed RGB components from given red, green and blue components.
-     * @param red : an integer 
-     * @param green : an integer 
-     * @param blue : an integer
-     * @return a 32-bits RGB color
-     * @see #getRed
-     * @see #getGreen
-     * @see #getBlue
-     */
-    public static int getRGB(int red, int green, int blue) {
-    		// Requirement: inputs between 0 and 255 
-    		red = verif(red) ; 
-    		green = verif(green) ;
-    		blue = verif(blue) ;
-    	
-    		int rgb = (red << 16) | (green << 8) | blue ; 
-		return rgb ; 
-    }  
-
-    /**
-     * Returns packed RGB components from given gray-scale value.
-     * @param gray : a double 
-     * @return a 32-bits RGB color
-     * @see #getGray
-     */
-    	public static int getRGB(double gray) {
-    		// Requirement: inputs between 0 and 255 
-		int grayRound = (int) Math.round(gray);
-		gray = verif(grayRound) ; 
-		
-		int graytoRGB = getRGB(grayRound,grayRound,grayRound);
-		return graytoRGB;
-    }
-
-    /**
-     * Converts packed RGB image to gray-scale image.
-     * @param image : a HxW integer array
-     * @return a HxW double array
-     * @see #encode
-     * @see #getGray
-     */
-    public static double[][] toGray(int[][] image) {
-		// Requirement: valid image (at least one pixel)
-		assert (image.length > 0) ;
-    		
-    		
-    	
-		double[][] grayImage = new double [image.length][image[0].length] ;
-		for (int i=0; i < image.length; i++) {
-			for (int j=0; j<image[i].length; j++)  {
-				grayImage [i][j] = getGray(image[i][j]) ;
-			}
-		}
-		// Requirement: non-null output table 
-		assert grayImage != null ; 
-		return grayImage ; 
-    }
-
-    /**
-     * Converts gray-scale image to packed RGB image.
-     * @param channels : a HxW double array
-     * @return a HxW integer array
-     * @see #decode
-     * @see #getRGB(double)
-     */
-    public static int[][] toRGB(double[][] gray) {
-		// Requirement: non-empty table 
-		assert (gray.length > 0) ;
-    	
-	    	int[][] rgb = new int [gray.length][gray[0].length];
-	    	for (int i=0; i < gray.length; ++i ) {
-	    		for (int j=0; j < gray[i].length; j++) {
-	    			rgb[i][j] = getRGB(gray[i][j]);
-	    		}
-	    	}
-		// Requirement: non-empty output table 
-		assert (rgb.length > 0) ;
-	    	return rgb;
+    public static void main(String[] args) {
+    	testGetRed();
+    	testGrayscale();
+    	testFindNBest();
+    	testDistanceBasedSearch();
+    	testSimilarityBasedSearch();   
+    	findCharlie();
     }
     
-
-    
-    /**
-     * Convert an arbitrary 2D double matrix into a 2D integer matrix 
-     * which can be used as RGB image
-     * @param matrix : the arbitrary 2D double array to convert into integer
-     * @param min : a double, the minimum value the matrix could theoretically contains
-     * @param max : a double, the maximum value the matrix could theoretically contains
-     * @return an 2D integer array, containing a RGB mapping of the matrix 
+    /*
+     * Tests for Class ImageProcessing
      */
-    public static int[][] matrixToRGBImage(double[][] matrix, double min, double max) {
-		// Requirement: non-empty matrix 
-		assert (matrix.length > 0) ;
-    	
-		// Computation 
-	    double[][] grayImage = new double [matrix.length][matrix[0].length] ; 
-	    	for (int i=0; i < matrix.length; ++i ) {
-	    		for (int j=0; j < matrix[i].length; j++) {
-	    			grayImage[i][j] = ((matrix[i][j]-min)/max)*255 ; 
-	    		}
-	    	}
-	    	
-	    	// Output  	
-	    return toRGB(grayImage); 
+    public static void testGetRed() { 
+    	int color = 0b11110000_00001111_01010101;
+    	int ref = 0b11110000;
+    	int red = ImageProcessing.getRed(color);
+    	if (red == ref) {
+    		System.out.println("Test passed");
+    	} else {
+    		System.out.println("Test failed. Returned value = " + red + " Expected value = " + ref);
+    	}
+    }
+	
+    public static void testGetGreen() { 
+		int color = 0b11110000_00001111_01010101;
+		int ref = 0b00001111;
+		int green = ImageProcessing.getGreen(color);
+		if (green == ref) {
+			System.out.println("Test passed   " + ref);
+		} else {
+			System.out.println("Test failed. Returned value = " + green + " Expected value = " + ref);
+		}
     }
     
+    public static void testGetBlue() { 
+		int color = 0b11110000_00001111_01010101;
+		int ref = 0b01010101;
+		int blue = ImageProcessing.getBlue(color);
+		if (blue == ref) {
+			System.out.println("Test passed   " + ref);
+		} else {
+			System.out.println("Test failed. Returned value = " + blue + " Expected value = " + ref);
+		}
+    }
+    
+    public static void testGetGray() { 
+		int color = 0b11110000_00001111_01010101;
+		double ref = 113.33333333333333 ;
+		double gray = ImageProcessing.getGray(color);
+		if (gray == ref) {
+			System.out.println("Test passed   " + ref);
+		} else {
+			System.out.println("Test failed. Returned value = " + gray + " Expected value = " + ref);
+		}
+    }
+    
+    public static void testGetRGB() { 
+		int ref = 0b11110000_00001111_01010101;
+		int red = 0b11110000;
+		int green = 0b00001111;
+		int blue = 0b01010101;
+		int rgb = ImageProcessing.getRGB(red, green, blue);
+		if (rgb == ref) {
+			System.out.println("Test passed   " + ref);
+		} else {
+			System.out.println("Test failed. Returned value = " + rgb + " Expected value = " + ref);
+		}
+    }
+    
+    public static void testGetRGBFromGray() { 
+		int ref = 0x7f7f7f;
+		double color = 127 ;
+		int rgb = ImageProcessing.getRGB(color);
+		if (rgb == ref) {
+			System.out.println("Test passed   " + ref);
+		} else {
+			System.out.println("Test failed. Returned value = " + rgb + " Expected value = " + ref);
+		}
+    }
+    
+    public static void testGrayscale() {
+    	System.out.println("Test Grayscale");
+     	int[][] image = Helper.read("images/food.png");
+    	double[][] gray = ImageProcessing.toGray(image);
+    	Helper.show(ImageProcessing.toRGB(gray), "test bw");
+    }
+	
+    public static void testMatrixToRGBImage() {
+    	 // TO COMPLETE THEN WE'RE DONE WITH TEST FOR IMAGEPROCESSING
+    }
+    
+        
+    /*
+     * Tests for Class Collector
+     */
+    
+    // Test for findBest()
+    public static void testFindBest() {
+    	System.out.println("Test findBest");
+    	double[][] t = new double[][] {{20, 30, 10, 50, 32}, {28, 39, 51, 78, 91}};
+    	int[]coords = Collector.findBest(t, true);   
+    	System.out.println("Row=" +coords[0]+" Col= "+coords[1]);
+    }
+	
+    public static void testFindNBest() {
+    	System.out.println("Test findNBest");
+    	double[][] t = new double[][] {{20, 30, 10, 50, 32}, {28, 39, 51, 78, 91}};
+    	int[][] coords = Collector.findNBest(10, t, true);    			
+    	for (int[] a : coords) {
+    		int r = a[0];
+    		int c = a[1];
+    		System.out.println("Row=" + r + " Col=" + c + " Val=" + t[r][c]);
+    	}    
+    }
 
+    //TODO: Tests for Collector are Done except if we plan to try the unerdpriced bonus thing
+
+    /*
+     * Tests for Class DistanceBasedSearch
+     */
+    
+    public static void testDistanceBasedSearch() {
+    	System.out.println("Test DistanceBasedSearch");
+    	int[][] food = Helper.read("images/food.png");
+    	int[][] onions = Helper.read("images/onions.png");
+    	double[][] distance = DistanceBasedSearch.distanceMatrix(onions, food); 			
+    	int[] p = Collector.findBest(distance, true);
+    	Helper.drawBox(p[0], p[1], onions[0].length, onions.length, food);
+    	Helper.show(food, "Found!");
+    }
+    
+    //TODO: complete
+    
+    /*
+     * Tests for Class SimilarityBasedSearch
+     */
+	
+    public static void testMean() {
+    		double [][] tab = { {3, 2, 1}, {0, 4, 2} } ; 
+    		double ref = 2.0 ; 
+    		double mean = SimilarityBasedSearch.mean(tab) ; 
+    		if (mean == ref) {
+    			System.out.println("Test passed   " + ref);
+    		} else {
+    			System.out.println("Test failed. Returned value = " + mean + " Expected value = " + ref);
+    		}
+    }
+
+    public static void testSimilarityBasedSearch() {
+    	System.out.println("Test SimilarityBasedSearch");
+		int[][] food = Helper.read("images/food.png");
+    	int[][] onions = Helper.read("images/onions.png");
+    	double[][] foodGray = ImageProcessing.toGray(food);
+    	double[][] onionsGray = ImageProcessing.toGray(onions);    	
+    	double[][] similarity = SimilarityBasedSearch.similarityMatrix(onionsGray, foodGray);
+    	int[][] best = Collector.findNBest(8, similarity, false);    			
+    	for (int[] a : best) {
+    		int r = a[0];
+    		int c = a[1];
+        	Helper.drawBox(r, c, onions[0].length, onions.length, food);
+    	}
+    	Helper.show(food, "Found again!");    	
+    }
+    
+    public static void findCharlie() {
+    	System.out.println("Find Charlie");
+		int[][] beach = Helper.read("images/charlie_beach.png");
+    	int[][] charlie = Helper.read("images/charlie.png");
+    	double[][] beachGray = ImageProcessing.toGray(beach);
+    	double[][] charlieGray = ImageProcessing.toGray(charlie);    	
+
+    	System.out.println("Compute Similarity Matrix: expected time about 2 min");
+    	double[][] similarity = SimilarityBasedSearch.similarityMatrix(charlieGray, beachGray);
+
+    	System.out.println("Find N Best");
+    	int[] best = Collector.findBest(similarity, false);   
+    	double max = similarity[best[0]][best[1]];
+    	
+    	Helper.show(ImageProcessing.matrixToRGBImage(similarity, -1, max), "Similarity");
+    	
+    	Helper.drawBox(best[0], best[1], charlie[0].length, charlie.length, beach);
+    	System.out.println("drawBox at (" + best[0] + "," + best[1] + ")");
+    	Helper.show(beach, "Found again!");    	
+    }
+    
+    //TODO: complete
 }
