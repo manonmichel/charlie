@@ -11,22 +11,33 @@ public class SimilarityBasedSearch {
 		// Requirement: valid image (at least one pixel)
 		assert (image.length > 0) ;
 		
+		// Computation
+		double mean = windowMean(image, 0, 0, image[0].length, image.length) ; 
+		
+		return mean ; 
+	}
+
+	public static double windowMean( double [][] matrix, int row, int col, int width, int height) {
+		
+		// Requirement: valid image (at least one pixel)
+		assert (height > 0) ;
+		
 		// Initialization of variables
 		double mean = 0;
 		
 		// Computation: sum of each element in matrix divided by dimension of matrix
-		for (int i=0; i < image.length; ++i ) {
-    			for (int j=0; j < image[i].length; j++) {
-    				mean+= image[i][j] ; 
+		for (int i=row ;  i < height - row ; ++i ) {
+    			for (int j=col; j < width - col  ; j++) {
+    				mean+= matrix[i ][j] ; 
     			}
 		}
-		mean /= (image.length*image[0].length) ; 
+		mean /= (width * height ) ; 
 		
 		//Requirement: output between 0 and 255 
 		assert mean>=0 && mean<256 ; 
 		return mean ; 
 	}
-
+	
 	
 	/**
 	 * Computes the Normalized Cross Correlation of a gray-scale pattern if positioned
@@ -50,7 +61,7 @@ public class SimilarityBasedSearch {
 		double nccImageSqrSum = 0;
 		double nccPatternSqrSum = 0; 
 		double meanPattern = mean(pattern) ; 
-		double meanImage = mean(image) ;
+		double meanImage = windowMean(image, row, col, image[0].length, image.length) ;
 		
 		// Computation 
 		for (int i=0; i < pattern.length; ++i ) {
