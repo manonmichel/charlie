@@ -2,8 +2,8 @@ package main;
 
 /**
  * 
- * @author Name of the students
- *
+ * @author Manon Michel
+ * @author Ellie Rabarison
  *	Where is Charlie Project 
  *
  */
