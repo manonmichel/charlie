@@ -114,6 +114,14 @@ public final class Main {
      * Tests for Class Collector
      */
     
+    // Test for findBest()
+    public static void testFindBest() {
+    	System.out.println("Test findBest");
+    	double[][] t = new double[][] {{20, 30, 10, 50, 32}, {28, 39, 51, 78, 91}};
+    	int[]coords = Collector.findBest(t, true);   
+    	System.out.println("Row=" +coords[0]+" Col= "+coords[1]);
+    }
+	
     public static void testFindNBest() {
     	System.out.println("Test findNBest");
     	double[][] t = new double[][] {{20, 30, 10, 50, 32}, {28, 39, 51, 78, 91}};
@@ -125,7 +133,7 @@ public final class Main {
     	}    
     }
 
-    //TODO: complete
+    //TODO: Tests for Collector are Done except if we plan to try the unerdpriced bonus thing
 
     /*
      * Tests for Class DistanceBasedSearch
