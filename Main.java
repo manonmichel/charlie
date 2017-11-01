@@ -85,6 +85,17 @@ public final class Main {
     /*
      * Tests for Class SimilarityBasedSearch
      */
+	
+    public static void testMean() {
+    		double [][] tab = { {3, 2, 1}, {0, 4, 2} } ; 
+    		double ref = 2.0 ; 
+    		double mean = SimilarityBasedSearch.mean(tab) ; 
+    		if (mean == ref) {
+    			System.out.println("Test passed   " + ref);
+    		} else {
+    			System.out.println("Test failed. Returned value = " + mean + " Expected value = " + ref);
+    		}
+    }
 
     public static void testSimilarityBasedSearch() {
     	System.out.println("Test SimilarityBasedSearch");
