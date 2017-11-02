@@ -26,8 +26,8 @@ public class SimilarityBasedSearch {
 		double mean = 0;
 		
 		// Computation: sum of each element in matrix divided by dimension of matrix
-		for (int i=row ;  i < height - row ; ++i ) {
-    			for (int j=col; j < width - col  ; j++) {
+		for (int i=row ;  i < row + height ; ++i ) {
+    			for (int j=col; j < width + col  ; j++) {
     				mean+= matrix[i ][j] ; 
     			}
 		}
@@ -61,9 +61,9 @@ public class SimilarityBasedSearch {
 		double nccImageSqrSum = 0;
 		double nccPatternSqrSum = 0; 
 		double meanPattern = mean(pattern) ; 
-		double meanImage = windowMean(image, row, col, image[0].length, image.length) ;
+		double meanImage = windowMean(image, row, col, pattern[0].length, pattern.length) ;
 		
-		// Computation 
+		// Computation
 		for (int i=0; i < pattern.length; ++i ) {
 			for (int j=0; j < pattern[i].length; j++) {
 				nccPattern = pattern[i][j] - meanPattern; 
@@ -73,6 +73,7 @@ public class SimilarityBasedSearch {
 				nccPatternSqrSum += (nccPattern)*(nccPattern) ; 	
 			}
 		}
+		
 		
 		// Verification du cas limite 
 		double denom = Math.sqrt(nccImageSqrSum*nccPatternSqrSum) ;
@@ -98,14 +99,17 @@ public class SimilarityBasedSearch {
 		// Requirement: pattern and image contain at least 1 pixel 
 		assert (pattern.length > 0) && (image.length > 0) ; 
 		
+		
 		// Initialization of output matrix
 		double[][] similarityMatrix = new double [image.length][image[0].length] ;
 		
 		// Implementation of output matrix 
 		for (int i=0; i < (image.length-pattern.length); i++) {
+			//start = System.nanoTime();
 			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
 				similarityMatrix [i][j] = normalizedCrossCorrelation(i, j, pattern, image) ;
 			}
+
 		}
 		
 		// Output 
