@@ -17,12 +17,19 @@ public final class Main {
 	 */
 	
     public static void main(String[] args) {
-    	testGetRed();
-    	testGrayscale();
-    	testFindNBest();
-    	testDistanceBasedSearch();
-    	testSimilarityBasedSearch();   
-    	findCharlie();
+    testGetRed();
+    testGetGreen();
+    testGetBlue();
+    testGetGray();
+    testGetRGB();
+    testGetRGBFromGray();
+    testGrayscale();
+    testFindBest();
+    testFindNBest();
+    testDistanceBasedSearch();
+    testMean();
+    testSimilarityBasedSearch();   
+    findCharlie();
     }
     
     /*
@@ -103,12 +110,10 @@ public final class Main {
     	Helper.show(ImageProcessing.toRGB(gray), "test bw");
     }
 	
-    public static void testMatrixToRGBImage() {
-    	 // TO COMPLETE
-    }
+   
+    // The test for matrixToRGB is done during testDistanceBasedSearch
     
-    //TODO: complete
-    
+    // Tests for Class ImageProcessing = DONE
         
     /*
      * Tests for Class Collector
@@ -132,8 +137,8 @@ public final class Main {
     		System.out.println("Row=" + r + " Col=" + c + " Val=" + t[r][c]);
     	}    
     }
-
-    //TODO: Tests for Collector are Done except if we plan to try the unerdpriced bonus thing
+    
+    // Tests for Class Collector = DONE, except for the underpriced bonus if we do them
 
     /*
      * Tests for Class DistanceBasedSearch
@@ -143,13 +148,28 @@ public final class Main {
     	System.out.println("Test DistanceBasedSearch");
     	int[][] food = Helper.read("images/food.png");
     	int[][] onions = Helper.read("images/onions.png");
-    	double[][] distance = DistanceBasedSearch.distanceMatrix(onions, food); 			
+    	double[][] distance = DistanceBasedSearch.distanceMatrix(onions, food); 	
+    	
     	int[] p = Collector.findBest(distance, true);
     	Helper.drawBox(p[0], p[1], onions[0].length, onions.length, food);
     	Helper.show(food, "Found!");
+    
+    	// These lines allow us to test ImageProcessing.matrixToRGBImage, as suggested in (4.5)
+    	System.out.println("Test MatrixToRGB");
+    	System.out.println("The two spots corresponding to the upper-left corner of the pattern onions.png should be darker.");
+    	Helper.show(ImageProcessing.matrixToRGBImage(distance, 0, 255), "Distance");
     }
     
-    //TODO: complete
+    // If we are REALLY REALLY bored and have nothing else to do:
+    
+    // Decide if we create a test
+    // public static void testPixelAbsoluteError {}
+    
+    // Decide if we create a test
+    // public static void testMeanAbsoluteError {}
+    
+    // Decide if we create a test
+    // public static void testDistanceMatrix {}
     
     /*
      * Tests for Class SimilarityBasedSearch
@@ -165,6 +185,7 @@ public final class Main {
     			System.out.println("Test failed. Returned value = " + mean + " Expected value = " + ref);
     		}
     }
+   
 
     public static void testSimilarityBasedSearch() {
     	System.out.println("Test SimilarityBasedSearch");
@@ -202,6 +223,4 @@ public final class Main {
     	System.out.println("drawBox at (" + best[0] + "," + best[1] + ")");
     	Helper.show(beach, "Found again!");    	
     }
-    
-    //TODO: complete
 }
