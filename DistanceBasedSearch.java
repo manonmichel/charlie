@@ -19,7 +19,7 @@ public class DistanceBasedSearch {
 		EA += Math.abs(ImageProcessing.getBlue(patternPixel)-ImageProcessing.getBlue(imagePixel)) ;
 		EA /= 3.0 ; 
 		
-		// Output
+		// Output: mean absolute error 
 		return EA ; 
 	}
 	
@@ -43,16 +43,17 @@ public class DistanceBasedSearch {
 		double EAM = 0;
 		int d = (pattern.length * pattern[0].length) ;
 		
-		// Computation
+		// Computation: sum of the absolute errors between the pattern and the image pixel by pixel
+		
 		for (int i=0; i<pattern.length; i++) {
 			for (int j=0; j<pattern[i].length; j++) {
 				EAM += pixelAbsoluteError(pattern[i][j], image[row + i][col + j]) ; 
 			}
 		}
-		// Output : division of the sum of absolute errors by number of pixels
+		// Output : division of the sum of absolute errors by number of pixels to get the mean
 		return EAM /= d; 
 	}
-
+	
 	/**
 	 * Compute the distanceMatrix between a RGB image and a RGB pattern
 	 * @param pattern : an 2D array of integers, the RGB pattern to find
@@ -61,6 +62,7 @@ public class DistanceBasedSearch {
 	 * the distance (meanAbsoluteError) between the image's window and the pattern
 	 * placed over this pixel (upper-left corner) 
 	 */
+	
 	public static double[][] distanceMatrix(int[][] pattern, int[][] image) {
 		// Requirement: pattern and image contain at least 1 pixel 
 		assert (pattern.length > 0) && (image.length > 0) ; 
@@ -77,7 +79,7 @@ public class DistanceBasedSearch {
 				distanceMatrix [i][j] = meanAbsoluteError(i, j, pattern, image) ;
 			}
 		}
-		// Output
+		// Output : double array containing, for each pixel, the distance between image's window and pattern
 		return distanceMatrix; 
 	}
 }
