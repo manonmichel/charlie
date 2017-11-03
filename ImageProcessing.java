@@ -193,7 +193,7 @@ public final class ImageProcessing {
 		// Requirement: non-empty matrix 
 		assert (matrix.length > 0) ;
     	
-		// Computation: converts 
+		// Computation: converts double matrix to integer matrix
 	    double[][] grayImage = new double [matrix.length][matrix[0].length] ; 
 	    	for (int i=0; i < matrix.length; ++i ) {
 	    		for (int j=0; j < matrix[i].length; j++) {
