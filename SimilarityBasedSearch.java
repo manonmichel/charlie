@@ -11,9 +11,10 @@ public class SimilarityBasedSearch {
 		// Requirement: valid image (at least one pixel)
 		assert (image.length > 0) ;
 		
-		// Computation
+		// Computation: mean value
 		double mean = windowMean(image, 0, 0, image[0].length, image.length) ; 
 		
+		// Output: mean value
 		return mean ; 
 	}
 
@@ -33,8 +34,10 @@ public class SimilarityBasedSearch {
 		}
 		mean /= (width * height ) ; 
 		
-		//Requirement: output between 0 and 255 
+		// Requirement: output between 0 and 255 
 		assert mean>=0 && mean<256 ; 
+		
+		// Output: mean value
 		return mean ; 
 	}
 	
@@ -63,7 +66,7 @@ public class SimilarityBasedSearch {
 		double meanPattern = mean(pattern) ; 
 		double meanImage = windowMean(image, row, col, pattern[0].length, pattern.length) ;
 		
-		// Computation
+		// Computation: different terms needed to compute normalized cross correlation
 		for (int i=0; i < pattern.length; ++i ) {
 			for (int j=0; j < pattern[i].length; j++) {
 				nccPattern = pattern[i][j] - meanPattern; 
@@ -73,13 +76,13 @@ public class SimilarityBasedSearch {
 				nccPatternSqrSum += (nccPattern)*(nccPattern) ; 	
 			}
 		}
-		
+		double denom = Math.sqrt(nccImageSqrSum*nccPatternSqrSum) ;
 		
 		// Verification du cas limite 
-		double denom = Math.sqrt(nccImageSqrSum*nccPatternSqrSum) ;
 		if (denom==0) {
 			return -1 ;
 		} else {
+		// Output: normalized cross corelation
 			return (innerProduct)/(denom);
 		}
 		
@@ -112,7 +115,7 @@ public class SimilarityBasedSearch {
 
 		}
 		
-		// Output 
+		// Output: double-array containing the NCC between the pattern and the background image window
 		return similarityMatrix; 
 	}
 
