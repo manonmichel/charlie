@@ -15,29 +15,33 @@ public class Collector {
 	
 public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 
+	// Initialization of output matrix
 	int[] bestCoord = new int[2];
+	
+	if (smallestFirst) { // If we need the smallest element
+		
+		double bestdistance = Double.POSITIVE_INFINITY; // The initial value is as big as possible
 
-	if (smallestFirst) {
-
-		double bestdistance = Double.POSITIVE_INFINITY;
-
+	// Computation: compares the elements two by two 
+	//              and keeps the smallest value each time
+		
 		for (int i=0; i<matrix.length; i++) {
 			for (int j=0; j<matrix[i].length;j++) {
-				//System.out.print(matrix [i][j]) ;
 				if (bestdistance>matrix[i][j] && matrix[i][j]!=0) {  // Pour corriger des erreurs liées à la valeur 0
 					bestdistance = matrix[i][j]; 
 					bestCoord[0]=i;
 					bestCoord[1]=j;
 				}
 			}
-			//System.out.println();
 		}
 	}
 
-	else {
+	else { // If we need the biggest element
 
-		double bestdistance = Double.NEGATIVE_INFINITY;
+		double bestdistance = Double.NEGATIVE_INFINITY; // The initial value is as small as possible
 
+	// Computation: compares the elements two by two
+	//      			and keeps the biggest value each time
 		for (int i=0;i<matrix.length;i++) {
 			for (int j=0; j<matrix[i].length;j++) {
 				if (bestdistance<matrix[i][j]) {
@@ -51,8 +55,10 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 			}
 		}
 	}
-	//Helper.show(ImageProcessing.matrixToRGBImage(matrix, 0, 255), "Distance 2");
-	//System.out.println(matrix[bestCoord[0]][bestCoord[1]]);
+	//Requirement: matrix has to be of length 2
+	assert (bestCoord.length!=2);
+	
+	// Output: coordinates of the best element
 	return bestCoord;
 }
     	
@@ -66,7 +72,7 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 	 * @return an array of size n containing row, column-coordinate pairs
 	 */
 	public static int[][] findNBest(int n, double[][] matrix, boolean smallestFirst) {
-		// Creating copy of matrix
+		// Creating copy of matrix for safety
 		double [][] matrixCopy = new double [matrix.length][matrix[0].length] ; 
 		for (int i=0; i < (matrix.length); i++) {
 			for (int j=0; j<(matrix[i].length); j++)  {
@@ -74,7 +80,7 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 			}
 		}
 		
-		// Computing n best coordinates
+		// Computation: n best coordinates
 		int [][] bestNCoord = new int [n][2] ; 
 		for (int k=0; k<n; k++) {
 			int [] bestCoord = findBest(matrixCopy, smallestFirst) ; 
@@ -89,7 +95,7 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 			}
 			
 		}
-		
+		// Output: coordinates of n best elements
 		return bestNCoord;
 	}
 	
