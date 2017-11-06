@@ -10,58 +10,58 @@ public class Collector {
 	 * @param smallestFirst : a boolean, indicates if the smallest element is the best or not (biggest is then the best)
 	 * @return an array of two integer coordinates, row first and then column
 	 */
-	
-	
-	
-public static int[] findBest(double[][] matrix, boolean smallestFirst) {
-
-	// Initialization of output matrix
-	int[] bestCoord = new int[2];
-	
-	if (smallestFirst) { // If we need the smallest element
+	public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 		
-		double bestdistance = Double.POSITIVE_INFINITY; // The initial value is as big as possible
-
-	// Computation: compares the elements two by two 
-	//              and keeps the smallest value each time
+		// Initialization of output matrix
+		int[] bestCoord = new int[2];
 		
-		for (int i=0; i<matrix.length; i++) {
-			for (int j=0; j<matrix[i].length;j++) {
-				if (bestdistance>matrix[i][j] && matrix[i][j]!=0) {  // Pour corriger des erreurs liées à la valeur 0
-					bestdistance = matrix[i][j]; 
-					bestCoord[0]=i;
-					bestCoord[1]=j;
+		if (smallestFirst) { // If we need the smallest element
+			
+			double bestdistance = Double.POSITIVE_INFINITY; // The initial value is as big as possible
+			
+			// Computation: compares the elements two by two 
+			//              and keeps the smallest value each time		
+	
+			for (int currentRow = 0; currentRow < matrix.length; currentRow++) {
+				for (int currentCol = 0; currentCol < matrix[0].length; currentCol++) {
+					//System.out.print(matrix [currentRow][currentCol]) ;
+					//if (bestdistance>matrix[currentRow][currentCol] && matrix[currentRow][currentCol]!=0) {  // Pour corriger des erreurs liées à la valeur 0
+					if (bestdistance>matrix[currentRow][currentCol]) { 
+						bestdistance = matrix[currentRow][currentCol]; 
+						bestCoord[0]=currentRow;
+						bestCoord[1]=currentCol;
+					}
+				}
+				//System.out.println();
+			}
+		}
+		
+		else { // If we need the biggest element
+			
+			double bestdistance = Double.NEGATIVE_INFINITY; // The initial value is as small as possible
+				
+			// Computation: compares the elements two by two
+			//      			and keeps the biggest value each time
+			
+			for (int currentRow = 0; currentRow < matrix.length; currentRow++) {
+				for (int currentCol = 0; currentCol < matrix[0].length; currentCol++) {
+					if (bestdistance<matrix[currentRow][currentCol]) {
+						bestdistance = matrix[currentRow][currentCol];
+						
+						bestCoord[0] = currentRow;
+						bestCoord[1] = currentCol;
+					}
+
+					
 				}
 			}
 		}
+		//Requirement: matrix has to be of length 2
+		assert (bestCoord.length == 2);
+		
+		// Output: coordinates of the best element
+		return bestCoord;
 	}
-
-	else { // If we need the biggest element
-
-		double bestdistance = Double.NEGATIVE_INFINITY; // The initial value is as small as possible
-
-	// Computation: compares the elements two by two
-	//      			and keeps the biggest value each time
-		for (int i=0;i<matrix.length;i++) {
-			for (int j=0; j<matrix[i].length;j++) {
-				if (bestdistance<matrix[i][j]) {
-					bestdistance = matrix[i][j];
-
-					bestCoord[0]=i;
-					bestCoord[1]=j;
-				}
-
-
-			}
-		}
-	}
-	//Requirement: matrix has to be of length 2
-	assert (bestCoord.length!=2);
-	
-	// Output: coordinates of the best element
-	return bestCoord;
-}
-    	
 
 	
 	/**
@@ -72,20 +72,20 @@ public static int[] findBest(double[][] matrix, boolean smallestFirst) {
 	 * @return an array of size n containing row, column-coordinate pairs
 	 */
 	public static int[][] findNBest(int n, double[][] matrix, boolean smallestFirst) {
-		// Creating copy of matrix for safety
+		// Creating copy of matrix in order to not modify the original
 		double [][] matrixCopy = new double [matrix.length][matrix[0].length] ; 
-		for (int i=0; i < (matrix.length); i++) {
-			for (int j=0; j<(matrix[i].length); j++)  {
-				matrixCopy[i][j] = matrix[i][j] ;
+		for (int currentRow = 0; currentRow < matrix.length; currentRow++) {
+			for (int currentCol = 0; currentCol < matrix[0].length; currentCol++) {
+				matrixCopy[currentRow][currentCol] = matrix[currentRow][currentCol] ;
 			}
 		}
 		
 		// Computation: n best coordinates
 		int [][] bestNCoord = new int [n][2] ; 
-		for (int k=0; k<n; k++) {
+		for (int currentN = 0; currentN < n; currentN++) {
 			int [] bestCoord = findBest(matrixCopy, smallestFirst) ; 
-			bestNCoord[k][0] = bestCoord[0] ;
-			bestNCoord[k][1] = bestCoord[1] ;
+			bestNCoord[currentN][0] = bestCoord[0] ;
+			bestNCoord[currentN][1] = bestCoord[1] ;
 		
 		// Eliminating best coordinate by replacing with infinite value 
 			if (smallestFirst) {
