@@ -142,9 +142,9 @@ public final class ImageProcessing {
     		
     		// Computation: pixel by pixel, converts RGB values into gray-scale values
 		double[][] grayImage = new double [image.length][image[0].length] ;
-		for (int i=0; i < image.length; i++) {
-			for (int j=0; j<image[i].length; j++)  {
-				grayImage [i][j] = getGray(image[i][j]) ;
+		for (int currentRow=0; currentRow < image.length; currentRow++) {
+			for (int currentCol=0; currentCol<image[currentRow].length; currentCol++)  {
+				grayImage [currentRow][currentCol] = getGray(image[currentRow][currentCol]) ;
 			}
 		}
 		// Requirement: non-null output table 
@@ -167,9 +167,9 @@ public final class ImageProcessing {
     	
 		// Computation: pixel by pixel, converts gray-scale values into RGB values
 	    	int[][] rgb = new int [gray.length][gray[0].length];
-	    	for (int i=0; i < gray.length; ++i ) {
-	    		for (int j=0; j < gray[i].length; j++) {
-	    			rgb[i][j] = getRGB(gray[i][j]);
+	    	for (int currentRow=0; currentRow < gray.length; currentRow++ ) {
+	    		for (int currentCol=0; currentCol < gray[currentRow].length; currentCol++) {
+	    			rgb[currentRow][currentCol] = getRGB(gray[currentRow][currentCol]);
 	    		}
 	    	}
 		// Requirement: non-empty output table 
@@ -195,9 +195,9 @@ public final class ImageProcessing {
     	
 		// Computation: converts double matrix to integer matrix
 	    double[][] grayImage = new double [matrix.length][matrix[0].length] ; 
-	    	for (int i=0; i < matrix.length; ++i ) {
-	    		for (int j=0; j < matrix[i].length; j++) {
-	    			grayImage[i][j] = ((matrix[i][j]-min)/(max-min))*255 ; 
+	    	for (int currentRow=0; currentRow < matrix.length; currentRow++ ) {
+	    		for (int currentCol=0; currentCol < matrix[currentRow].length; currentCol++) {
+	    			grayImage[currentRow][currentCol] = ((matrix[currentRow][currentCol]-min)/(max-min))*255 ; 
 	    		}
 	    	}
 	    	
