@@ -27,9 +27,9 @@ public class SimilarityBasedSearch {
 		double mean = 0;
 		
 		// Computation: sum of each element in matrix divided by dimension of matrix
-		for (int i=row ;  i < row + height ; ++i ) {
-    			for (int j=col; j < width + col  ; j++) {
-    				mean+= matrix[i ][j] ; 
+		for (int currentRow=row ;  currentRow < row + height ; ++currentRow ) {
+    			for (int currentCol=col; currentCol < width + col  ; currentCol++) {
+    				mean+= matrix[currentRow][currentCol] ; 
     			}
 		}
 		mean /= (width * height ) ; 
@@ -67,10 +67,10 @@ public class SimilarityBasedSearch {
 		double meanImage = windowMean(image, row, col, pattern[0].length, pattern.length) ;
 		
 		// Computation: different terms needed to compute normalized cross correlation
-		for (int i=0; i < pattern.length; ++i ) {
-			for (int j=0; j < pattern[i].length; j++) {
-				nccPattern = pattern[i][j] - meanPattern; 
-				nccImage = image[i+row][j+col]- meanImage ; 
+		for (int currentRow=0; currentRow < pattern.length; ++currentRow ) {
+			for (int currentCol=0; currentCol < pattern[currentRow].length; currentCol++) {
+				nccPattern = pattern[currentRow][currentCol] - meanPattern; 
+				nccImage = image[currentRow+row][currentCol+col]- meanImage ; 
 				innerProduct += (nccImage)*(nccPattern) ; 
 				nccImageSqrSum += (nccImage)*(nccImage) ; 
 				nccPatternSqrSum += (nccPattern)*(nccPattern) ; 	
@@ -107,10 +107,10 @@ public class SimilarityBasedSearch {
 		double[][] similarityMatrix = new double [image.length][image[0].length] ;
 		
 		// Implementation of output matrix 
-		for (int i=0; i < (image.length-pattern.length); i++) {
+		for (int currentRow=0; currentRow < (image.length-pattern.length); currentRow++) {
 			//start = System.nanoTime();
-			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
-				similarityMatrix [i][j] = normalizedCrossCorrelation(i, j, pattern, image) ;
+			for (int currentCol=0; currentCol<(image[currentRow].length-pattern[0].length); currentCol++)  {
+				similarityMatrix [currentRow][currentCol] = normalizedCrossCorrelation(currentRow, currentCol, pattern, image) ;
 			}
 
 		}
