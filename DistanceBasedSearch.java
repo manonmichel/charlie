@@ -45,9 +45,9 @@ public class DistanceBasedSearch {
 		
 		// Computation: sum of the absolute errors between the pattern and the image pixel by pixel
 		
-		for (int i=0; i<pattern.length; i++) {
-			for (int j=0; j<pattern[i].length; j++) {
-				EAM += pixelAbsoluteError(pattern[i][j], image[row + i][col + j]) ; 
+		for (int currentRow = 0; currentRow < pattern.length; currentRow++) {
+			for (int currentCol = 0; currentCol < pattern[currentRow].length; currentCol++) {
+				EAM += pixelAbsoluteError(pattern[currentRow][currentCol], image[row + currentRow][col + currentCol]) ; 
 			}
 		}
 		// Output : division of the sum of absolute errors by number of pixels to get the mean
@@ -74,9 +74,9 @@ public class DistanceBasedSearch {
 		
 		// Computation: implementation of mean absolute error between 
 		//              pattern and image for each pixel of image
-		for (int i=0; i < (image.length-pattern.length); i++) {
-			for (int j=0; j<(image[i].length-pattern[0].length); j++)  {
-				distanceMatrix [i][j] = meanAbsoluteError(i, j, pattern, image) ;
+		for (int currentRow = 0; currentRow < (image.length-pattern.length); currentRow++) {
+			for (int currentCol = 0; currentCol < (image[0].length-pattern[0].length); currentCol++)  {
+				distanceMatrix [currentRow][currentCol] = meanAbsoluteError(currentRow, currentCol, pattern, image) ;
 			}
 		}
 		// Output : double array containing, for each pixel, the distance between image's window and pattern
