@@ -108,7 +108,6 @@ public class SimilarityBasedSearch {
 		
 		// Implementation of output matrix 
 		for (int currentRow=0; currentRow < (image.length-pattern.length); currentRow++) {
-			//start = System.nanoTime();
 			for (int currentCol=0; currentCol<(image[currentRow].length-pattern[0].length); currentCol++)  {
 				similarityMatrix [currentRow][currentCol] = normalizedCrossCorrelation(currentRow, currentCol, pattern, image) ;
 			}
