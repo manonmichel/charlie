@@ -11,7 +11,7 @@ public class Program {
 	 	double[][] beachGray = ImageProcessing.toGray(beach);
         double[][] charlieGray = ImageProcessing.toGray(charlie);
 	 	
-        // Search based on the Similarity between gray-scale images beachGray and charlieGray
+        	// Search based on the Similarity between gray-scale images beachGray and charlieGray
 	 	System.out.println("Compute Similarity Matrix: expected time about 2 minutes.");
 	 	double[][] similarity = SimilarityBasedSearch.similarityMatrix(charlieGray, beachGray);
 	 	
