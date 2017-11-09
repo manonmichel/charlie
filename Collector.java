@@ -24,15 +24,12 @@ public class Collector {
 	
 			for (int currentRow = 0; currentRow < matrix.length; currentRow++) {
 				for (int currentCol = 0; currentCol < matrix[0].length; currentCol++) {
-					//System.out.print(matrix [currentRow][currentCol]) ;
-					//if (bestdistance>matrix[currentRow][currentCol] && matrix[currentRow][currentCol]!=0) {  // Pour corriger des erreurs liées à la valeur 0
 					if (bestdistance>matrix[currentRow][currentCol]) { 
 						bestdistance = matrix[currentRow][currentCol]; 
 						bestCoord[0]=currentRow;
 						bestCoord[1]=currentCol;
 					}
 				}
-				//System.out.println();
 			}
 		}
 		
