@@ -160,16 +160,6 @@ public final class Main {
     	Helper.show(ImageProcessing.matrixToRGBImage(distance, 0, 255), "Distance");
     }
     
-    // If we are REALLY REALLY bored and have nothing else to do:
-    
-    // Decide if we create a test
-    // public static void testPixelAbsoluteError {}
-    
-    // Decide if we create a test
-    // public static void testMeanAbsoluteError {}
-    
-    // Decide if we create a test
-    // public static void testDistanceMatrix {}
     
     /*
      * Tests for Class SimilarityBasedSearch
